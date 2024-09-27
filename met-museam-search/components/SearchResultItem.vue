@@ -3,7 +3,8 @@
     <div v-if="renderItem">
       <div class="search-result-item__card">
         <div class="search-result-item__image">
-          <img :src="item.primaryImageSmall || defaultImage" :alt="item.title || 'Default Image'" data-testid="item-image" />
+          <img v-if="item.primaryImageSmall" v-bind="imageProps" data-testid="item-image" />
+          <img v-else :src="defaultImage" alt="no image available" data-testid="item-image" />
         </div>
         <div class="search-result-item__details">
           <h2 class="search-result-item__title" :title="item.title || 'Not Available'" data-testid="item-title">{{ item.title || 'Not Available' }}</h2>
@@ -42,7 +43,13 @@ export default {
       return this.item.tags ? this.item.tags.slice(0, 3) : [];
     },
     defaultImage() {
-      return 'https://via.placeholder.com/150'; // URL to the default image
+      return 'https://via.placeholder.com/150';
+    },
+    imageProps() {
+      return {
+        src: this.item.primaryImageSmall || this.defaultImage,
+        alt: this.item.title || 'Default Image',
+      };
     }
   }
 }
@@ -60,7 +67,7 @@ export default {
   text-align: left;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
-  height: 400px; /* Fixed height for consistency */
+  height: 400px; 
   overflow: hidden;
 }
 
@@ -70,19 +77,19 @@ export default {
 
 .search-result-item__image {
   width: 100%;
-  height: 200px; /* Fixed height for consistency */
+  height: 200px;
   overflow: hidden;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Anchor the image from the top */
+  align-items: flex-start; 
   border-radius: 8px;
 }
 
 .search-result-item__image img {
   width: 100%;
   height: auto;
-  object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
-  object-position: top; /* Anchors the image from the top */
+  object-fit: cover;
+  object-position: top;
   border-radius: 8px;
 }
 
@@ -108,14 +115,14 @@ export default {
 .search-result-item__artist-role,
 .search-result-item__artist-name,
 .search-result-item__artist-nationality {
-  margin: 0.3em 0; /* Reduced spacing between details */
+  margin: 0.3em 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .search-result-item__tags {
-  margin-top: 0.5em; /* Reduced spacing */
+  margin-top: 0.5em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
