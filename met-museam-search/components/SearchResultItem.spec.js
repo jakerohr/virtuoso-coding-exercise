@@ -22,7 +22,7 @@ describe('SearchResultItem', () => {
       artistRole: 'street artist',
       artistDisplayName: 'Banksy',
       artistNationality: 'English',
-      tags: ['Art','Painting','Taco'],
+      tags: [{term: 'Art'},{term: 'Painting'},{term: 'Taco'}],
       objectURL: 'http://example.com',
     };
     const wrapper = mount(SearchResultItem, {
@@ -32,11 +32,11 @@ describe('SearchResultItem', () => {
     expect(wrapper.find('[data-testid="item-image"]').attributes('src')).toBe(item.primaryImageSmall);
     expect(wrapper.find('[data-testid="item-title"]').text()).toBe(item.title);
     expect(wrapper.find('[data-testid="item-date"]').text()).toBe(item.objectDate);
-    expect(wrapper.find('[data-testid="item-department"]').text()).toBe(item.department);
-    expect(wrapper.find('[data-testid="item-artist-role"]').text()).toBe(item.artistRole);
-    expect(wrapper.find('[data-testid="item-artist-name"]').text()).toBe(item.artistDisplayName);
-    expect(wrapper.find('[data-testid="item-artist-nationality"]').text()).toBe(item.artistNationality);
-    expect(wrapper.find('[data-testid="item-tags"]').text()).toContain(item.tags[0]);
+    expect(wrapper.find('[data-testid="item-department"]').text()).toBe(`Department: ${item.department}`);
+    expect(wrapper.find('[data-testid="item-artist-role"]').text()).toBe(`Artist Role: ${item.artistRole}`);
+    expect(wrapper.find('[data-testid="item-artist-name"]').text()).toBe(`Artist Name: ${item.artistDisplayName}`);
+    expect(wrapper.find('[data-testid="item-artist-nationality"]').text()).toBe(`Artist Nationality: ${item.artistNationality}`);
+    expect(wrapper.find('[data-testid="item-tags"]').text()).toContain(`Tags: ${item.tags[0].term}`);
   });
 
   it('renders a maximum of 3 tags', () => {

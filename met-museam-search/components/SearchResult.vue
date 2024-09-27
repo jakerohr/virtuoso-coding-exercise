@@ -1,16 +1,19 @@
 <template>
   <div>
     <div class="header-container">
-      Total: {{ totalCount }}
+      <p>Total: {{ totalCount }}</p>
+      <div class="top-departments">
+        <h3>Top Departments</h3>
+        <ul>
+          <li v-for="department in topDepartments" :key="department" @click="filterByDepartment(department)" class="clickable">
+            {{ department }}
+          </li>
+        </ul>
+        <button v-if="selectedDepartment" @click="resetFilter">Show All</button>
+      </div>
     </div>
-    <div class="top-departments">
-      <h3>Top Departments</h3>
-      <ul>
-        <li v-for="department in topDepartments" :key="department">{{ department }}</li>
-      </ul>
-    </div>
-    <div class="results-container">
-      <SearchResultItem v-for="item in items" :key="item.objectID" :item="item" class="search-result-item" />
+    <div class="results-grid">
+      <SearchResultItem v-for="item in filteredItems" :key="item.objectID" :item="item" />
     </div>
   </div>
 </template>
@@ -30,6 +33,11 @@ export default {
       default: () => []
     }
   },
+  data() {
+    return {
+      selectedDepartment: null,
+    };
+  },
   computed: {
     totalCount() {
       return this.items.length;
@@ -44,12 +52,26 @@ export default {
         .sort((a, b) => b[1] - a[1])
         .slice(0, 3)
         .map(entry => entry[0]);
+    },
+    filteredItems() {
+      if (this.selectedDepartment) {
+        return this.items.filter(item => item.department === this.selectedDepartment);
+      }
+      return this.items;
+    }
+  },
+  methods: {
+    filterByDepartment(department) {
+      this.selectedDepartment = department;
+    },
+    resetFilter() {
+      this.selectedDepartment = null;
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .header-container {
   font-size: 1.5em;
   margin-bottom: 1em;
@@ -59,8 +81,13 @@ export default {
   margin-bottom: 1em;
 }
 
-.results-container {
-  display: flex;
-  flex-direction: column;
+.clickable {
+  cursor: pointer;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1em;
 }
 </style>

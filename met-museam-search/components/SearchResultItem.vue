@@ -3,17 +3,17 @@
     <div v-if="renderItem">
       <div class="search-result-item__card">
         <div class="search-result-item__image">
-          <img :src="item.primaryImageSmall" :alt="item.title" data-testid="item-image" />
+          <img :src="item.primaryImageSmall || defaultImage" :alt="item.title || 'Default Image'" data-testid="item-image" />
         </div>
         <div class="search-result-item__details">
-          <h2 class="search-result-item__title" data-testid="item-title">{{ item.title || 'Not Available' }}</h2>
-          <p class="search-result-item__date" data-testid="item-date">{{ item.objectDate || 'Not Available' }}</p>
-          <p class="search-result-item__department" data-testid="item-department">{{ item.department || 'Not Available' }}</p>
-          <p class="search-result-item__artist-role" data-testid="item-artist-role">{{ item.artistRole || 'Not Available' }}</p>
-          <p class="search-result-item__artist-name" data-testid="item-artist-name">{{ item.artistDisplayName || 'Not Available' }}</p>
-          <p class="search-result-item__artist-nationality" data-testid="item-artist-nationality">{{ item.artistNationality || 'Not Available' }}</p>
-          <div class="search-result-item__tags" data-testid="item-tags">
-            <span v-for="tag in itemTags" :key="`tag-${tag}`" class="search-result-item__tag">{{ tag }}</span>
+          <h2 class="search-result-item__title" :title="item.title || 'Not Available'" data-testid="item-title">{{ item.title || 'Not Available' }}</h2>
+          <p class="search-result-item__date" :title="item.objectDate || 'Not Available'" data-testid="item-date"><strong>Date:</strong> {{ item.objectDate || 'Not Available' }}</p>
+          <p class="search-result-item__department" :title="item.department || 'Not Available'" data-testid="item-department"><strong>Department:</strong> {{ item.department || 'Not Available' }}</p>
+          <p class="search-result-item__artist-role" :title="item.artistRole || 'Not Available'" data-testid="item-artist-role"><strong>Artist Role:</strong> {{ item.artistRole || 'Not Available' }}</p>
+          <p class="search-result-item__artist-name" :title="item.artistDisplayName || 'Not Available'" data-testid="item-artist-name"><strong>Artist Name:</strong> {{ item.artistDisplayName || 'Not Available' }}</p>
+          <p class="search-result-item__artist-nationality" :title="item.artistNationality || 'Not Available'" data-testid="item-artist-nationality"><strong>Artist Nationality:</strong> {{ item.artistNationality || 'Not Available' }}</p>
+          <div class="search-result-item__tags" :title="itemTags.map(tag => tag.term).join(', ')" data-testid="item-tags">
+            <strong>Tags:</strong> <span v-for="tag in itemTags" :key="`tag-${tag}`" class="search-result-item__tag">{{ tag.term }}</span>
           </div>
         </div>
       </div>
@@ -40,11 +40,92 @@ export default {
     },
     itemTags() {
       return this.item.tags ? this.item.tags.slice(0, 3) : [];
+    },
+    defaultImage() {
+      return 'https://via.placeholder.com/150'; // URL to the default image
     }
   }
 }
 </script>
 
 <style scoped>
-/* Add your styles here */
+.search-result-item__card {
+  border: 1px solid #ccc;
+  padding: 1em;
+  border-radius: 8px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  height: 400px; /* Fixed height for consistency */
+  overflow: hidden;
+}
+
+.search-result-item__card:hover {
+  transform: translateY(-5px);
+}
+
+.search-result-item__image {
+  width: 100%;
+  height: 200px; /* Fixed height for consistency */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Anchor the image from the top */
+  border-radius: 8px;
+}
+
+.search-result-item__image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
+  object-position: top; /* Anchors the image from the top */
+  border-radius: 8px;
+}
+
+.search-result-item__details {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.search-result-item__title {
+  margin: 0.5em 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-item__date,
+.search-result-item__department,
+.search-result-item__artist-role,
+.search-result-item__artist-name,
+.search-result-item__artist-nationality {
+  margin: 0.3em 0; /* Reduced spacing between details */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-item__tags {
+  margin-top: 0.5em; /* Reduced spacing */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-item__tag {
+  display: inline-block;
+  background-color: #e0e0e0;
+  border-radius: 12px;
+  padding: 0.2em 0.6em;
+  margin: 0 0.2em;
+}
 </style>
