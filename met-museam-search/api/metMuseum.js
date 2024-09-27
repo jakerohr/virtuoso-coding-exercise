@@ -19,6 +19,27 @@ export async function fetchObjectDetailsByPage(objectIds, page, pageSize) {
 }
 
 function filterItemData(item) {
-  const { primaryImageSmall, primaryImage, title, objectDate, department, artistRole, artistDisplayName, artistNationality, tags } = item;
-  return { primaryImageSmall, primaryImage, title, objectDate, department, artistRole, artistDisplayName, artistNationality, tags };
+  const {
+    primaryImageSmall,
+    primaryImage,
+    title,
+    objectDate,
+    department,
+    artistRole,
+    artistDisplayName,
+    artistNationality,
+    tags,
+    objectURL } = item;
+  return {
+    primaryImageSmall,
+    primaryImage,
+    title,
+    objectDate,
+    department,
+    artistRole,
+    artistDisplayName,
+    artistNationality,
+    tags,
+    objectURL
+  };
 }

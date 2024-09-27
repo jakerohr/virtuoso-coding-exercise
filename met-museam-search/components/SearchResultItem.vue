@@ -1,19 +1,19 @@
 <template>
-  <div class="search-result-item">
+  <a :href="item.objectURL" target="_blank" class="search-result-item">
     <div v-if="renderItem">
       <div class="search-result-item__card">
         <div class="search-result-item__image">
           <img v-if="item.primaryImageSmall" v-bind="imageProps" data-testid="item-image" />
-          <img v-else :src="defaultImage" alt="no image available" data-testid="item-image" />
+          <div v-else class="image-placeholder" data-testid="item-image">Not Available</div>
         </div>
         <div class="search-result-item__details">
-          <h2 class="search-result-item__title" :title="item.title || 'Not Available'" data-testid="item-title">{{ item.title || 'Not Available' }}</h2>
-          <p class="search-result-item__date" :title="item.objectDate || 'Not Available'" data-testid="item-date"><strong>Date:</strong> {{ item.objectDate || 'Not Available' }}</p>
-          <p class="search-result-item__department" :title="item.department || 'Not Available'" data-testid="item-department"><strong>Department:</strong> {{ item.department || 'Not Available' }}</p>
-          <p class="search-result-item__artist-role" :title="item.artistRole || 'Not Available'" data-testid="item-artist-role"><strong>Artist Role:</strong> {{ item.artistRole || 'Not Available' }}</p>
-          <p class="search-result-item__artist-name" :title="item.artistDisplayName || 'Not Available'" data-testid="item-artist-name"><strong>Artist Name:</strong> {{ item.artistDisplayName || 'Not Available' }}</p>
-          <p class="search-result-item__artist-nationality" :title="item.artistNationality || 'Not Available'" data-testid="item-artist-nationality"><strong>Artist Nationality:</strong> {{ item.artistNationality || 'Not Available' }}</p>
-          <div class="search-result-item__tags" :title="itemTags.map(tag => tag.term).join(', ')" data-testid="item-tags">
+          <h2 class="search-result-item__title" data-testid="item-title">{{ item.title || 'Not Available' }}</h2>
+          <p class="search-result-item__date" data-testid="item-date"><strong>Date:</strong> {{ item.objectDate || 'Not Available' }}</p>
+          <p class="search-result-item__department" data-testid="item-department"><strong>Department:</strong> {{ item.department || 'Not Available' }}</p>
+          <p class="search-result-item__artist-role" data-testid="item-artist-role"><strong>Artist Role:</strong> {{ item.artistRole || 'Not Available' }}</p>
+          <p class="search-result-item__artist-name" data-testid="item-artist-name"><strong>Artist Name:</strong> {{ item.artistDisplayName || 'Not Available' }}</p>
+          <p class="search-result-item__artist-nationality" data-testid="item-artist-nationality"><strong>Artist Nationality:</strong> {{ item.artistNationality || 'Not Available' }}</p>
+          <div class="search-result-item__tags" data-testid="item-tags">
             <strong>Tags:</strong> <span v-for="tag in itemTags" :key="`tag-${tag}`" class="search-result-item__tag">{{ tag.term }}</span>
           </div>
         </div>
@@ -22,7 +22,7 @@
     <div v-else>
       <p>Not Available</p>
     </div>
-  </div>
+  </a>
 </template>
 
 <script>
@@ -56,6 +56,11 @@ export default {
 </script>
 
 <style scoped>
+.search-result-item {
+  text-decoration: none;
+  color: inherit;
+}
+
 .search-result-item__card {
   border: 1px solid #ccc;
   padding: 1em;
@@ -90,6 +95,19 @@ export default {
   height: auto;
   object-fit: cover;
   object-position: top;
+  border-radius: 8px;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  background-color: #e0e0e0;
+  font-size: 1.2em;
+  font-weight: bold;
   border-radius: 8px;
 }
 
