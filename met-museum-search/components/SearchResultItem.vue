@@ -7,16 +7,16 @@
           <div v-else class="image-placeholder" data-testid="item-image">Not Available</div>
         </div>
         <div class="search-result-item__details">
-          <h2 class="search-result-item__title" data-testid="item-title">{{ item.title || 'Not Available' }}</h2>
-          <p class="search-result-item__date" data-testid="item-date"><strong>Date:</strong> {{ item.objectDate || 'Not Available' }}</p>
-          <p class="search-result-item__department" data-testid="item-department"><strong>Department:</strong> {{ item.department || 'Not Available' }}</p>
-          <p class="search-result-item__artist-role" data-testid="item-artist-role"><strong>Artist Role:</strong> {{ item.artistRole || 'Not Available' }}</p>
-          <p class="search-result-item__artist-name" data-testid="item-artist-name"><strong>Artist Name:</strong> {{ item.artistDisplayName || 'Not Available' }}</p>
-          <p class="search-result-item__artist-nationality" data-testid="item-artist-nationality"><strong>Artist Nationality:</strong> {{ item.artistNationality || 'Not Available' }}</p>
+          <h2 class="search-result-item__title" data-testid="item-title" :title="item.title || 'Not Available'">{{ item.title || 'Not Available' }}</h2>
+          <p class="search-result-item__date" data-testid="item-date" :title="item.objectDate || 'Not Available'"><strong>Date:</strong> {{ item.objectDate || 'Not Available' }}</p>
+          <p class="search-result-item__department" data-testid="item-department" :title="item.department || 'Not Available'"><strong>Department:</strong> {{ item.department || 'Not Available' }}</p>
+          <p class="search-result-item__artist-role" data-testid="item-artist-role" :title="item.artistRole || 'Not Available'"><strong>Artist Role:</strong> {{ item.artistRole || 'Not Available' }}</p>
+          <p class="search-result-item__artist-name" data-testid="item-artist-name" :title="item.artistDisplayName || 'Not Available'"><strong>Artist Name:</strong> {{ item.artistDisplayName || 'Not Available' }}</p>
+          <p class="search-result-item__artist-nationality" data-testid="item-artist-nationality" :title="item.artistNationality || 'Not Available'"><strong>Artist Nationality:</strong> {{ item.artistNationality || 'Not Available' }}</p>
           <div class="search-result-item__tags" data-testid="item-tags">
             <strong>Tags:</strong>
             <template v-if="itemTags.length > 0">
-              <span v-for="tag in itemTags" :key="`tag-${tag}`" class="search-result-item__tag"> {{ tag.term }}</span>
+              <span v-for="tag in itemTags" :key="`tag-${tag}`" class="search-result-item__tag" :title="tag.term"> {{ tag.term }}</span>
             </template>
             <template v-else>
               <span> Not Available</span>
