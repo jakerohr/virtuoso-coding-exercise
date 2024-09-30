@@ -14,7 +14,7 @@ git clone https://github.com/yourusername/virtuoso-coding-exercise.git
 cd virtuoso-coding-exercise
 ```
 
-2. Navigate into the `met-museum` directory:
+2. Navigate into the `met-museum-search` directory:
 
 ```bash
 cd met-museum
@@ -32,11 +32,18 @@ npm install
 npm run dev
 ```
 
+## Production
+
+```bash
+npm run build
+npm run preview
+```
+
 ## Usage
 
 1. Open your web browser and navigate to `http://localhost:3000`.
-2. Enter a search term in the search bar and click "Search" to see a list of artworks.
-3. Click on an artwork to see more details.
+2. Click on a card image to open the lightbox.
+3. Click anywhere else on the card to open the item page in a new tab.
 
 ## Objective
 - Fetch results and render in cards.
@@ -52,7 +59,14 @@ npm run dev
 
 ### Challenges
 - **Data Fetching**: Handling data fetching for 8000+ IDs that need to be fetched separately.
-- **Caching**: While caching would be ideal, the focus was on pagination.
-- **Pagination Impact**: Pagination influences which top departments are displayed.
+- **Caching**: While caching would be ideal, the focus was on progressively loading items.
+- **Progressive Loading**: The number of items loaded and the speed of loading greatly impacts performance and user experience.
+- **Accurate Top Departments**: The top departments are determined by currently loaded items. By progressively loading more items, the top departments are affected.
 - **Batch Data Fetching**: Decided to batch data fetching and display the number of items loaded versus the total.
 
+### Future Improvements
+- **Caching**: Implement caching to improve performance and user experience.
+- **Pagination**: Implement pagination to improve performance and user experience.
+- **Loading Indicators**: Implement loading indicators to improve user experience.
+- **Error Handling**: Implement error handling to improve user experience.
+- **Accessibility**: Improve accessibility by adding aria labels and improving color contrast.
