@@ -5,6 +5,10 @@ Coding Exercise for Jake Rohr
 
 This project is a simple web application that allows users to search for artworks in the MET Museum's collection. It uses the MET Museum's API to fetch artwork data and display it in a list.
 
+## Live Demo
+
+You can view the live demo of the project [here](https://virtuoso-exercise-jake-rohr.netlify.app/).
+
 ## Installation
 
 1. Clone the repository:
