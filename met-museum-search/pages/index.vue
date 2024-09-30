@@ -107,6 +107,7 @@ export default {
   padding: 0 1em;
   font-family: 'Montserrat', sans-serif;
   color: #333;
+  padding-bottom: 2em;
 }
 
 .error-message {
