@@ -23,17 +23,30 @@
 <script>
 import SearchResultItem from './SearchResultItem.vue';
 
+/**
+ * SearchResult component
+ * 
+ * This component displays the search results from the Met Museum API, including filtering by department.
+ */
 export default {
   name: 'SearchResult',
   components: {
     SearchResultItem,
   },
   props: {
+    /**
+     * List of items to display.
+     * @type {Array}
+     */
     items: {
       type: Array,
       required: true,
       default: () => []
     },
+    /**
+     * Total number of results.
+     * @type {Number}
+     */
     totalResults: {
       type: Number,
       required: true
@@ -41,10 +54,14 @@ export default {
   },
   data() {
     return {
-      selectedDepartment: null,
+      selectedDepartment: null, // Currently selected department for filtering
     };
   },
   computed: {
+    /**
+     * Compute the top 3 departments based on the number of items.
+     * @returns {Array} List of top departments
+     */
     topDepartments() {
       const departmentCount = this.items.reduce((acc, item) => {
         acc[item.department] = (acc[item.department] || 0) + 1;
@@ -56,6 +73,10 @@ export default {
         .slice(0, 3)
         .map(entry => entry[0]);
     },
+    /**
+     * Filter items based on the selected department.
+     * @returns {Array} List of filtered items
+     */
     filteredItems() {
       if (this.selectedDepartment) {
         return this.items.filter(item => item.department === this.selectedDepartment);
@@ -64,9 +85,16 @@ export default {
     }
   },
   methods: {
+    /**
+     * Set the selected department for filtering.
+     * @param {String} department - The department to filter by
+     */
     filterByDepartment(department) {
       this.selectedDepartment = department;
     },
+    /**
+     * Reset the department filter to show all items.
+     */
     resetFilter() {
       this.selectedDepartment = null;
     }

@@ -32,12 +32,21 @@
 <script>
 import Lightbox from './Lightbox.vue';
 
+/**
+ * SearchResultItem component
+ * 
+ * This component displays a single search result item from the Met Museum API.
+ */
 export default {
   name: 'SearchResultItem',
   components: {
     Lightbox,
   },
   props: {
+    /**
+     * The item to display.
+     * @type {Object}
+     */
     item: {
       type: Object,
       required: true,
@@ -45,19 +54,30 @@ export default {
   },
   data() {
     return {
-      isLightboxOpen: false,
+      isLightboxOpen: false, // State to control the lightbox visibility
     };
   },
   computed: {
+    /**
+     * Compute the tags to display, limited to the first 3 tags.
+     * @returns {Array} List of tags
+     */
     itemTags() {
       return this.item.tags ? this.item.tags.slice(0, 3) : [];
     },
   },
   methods: {
+    /**
+     * Open the lightbox to display the primary image.
+     * @param {Event} event - The click event
+     */
     openLightbox(event) {
       event.preventDefault(); // Prevent the default behavior of the anchor tag
       this.isLightboxOpen = true;
     },
+    /**
+     * Close the lightbox.
+     */
     closeLightbox() {
       this.isLightboxOpen = false;
     },

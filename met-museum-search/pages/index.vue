@@ -1,13 +1,18 @@
 <template>
   <div class="page-container">
+    <!-- Display error message if fetchError is set -->
     <div v-if="fetchError">
       <p class="error-message">Error loading data: {{ fetchError }}</p>
     </div>
     <div v-else>
+      <!-- Display search results and total number of results -->
       <SearchResult :items="items" :totalResults="objectIds.length" />
+      <!-- Show loading message when data is being fetched -->
       <div v-if="loading" class="loading-message">Loading more...</div>
       <div class="button-container">
+        <!-- Load more button, shown if not loading and more data is available -->
         <button v-if="!loading && hasMore" @click="loadMore" class="primary-button">Load More</button>
+        <!-- Back to top button, shown if there are items in the list -->
         <button v-if="items.length" @click="scrollToTop" class="secondary-button">Back to Top</button>
       </div>
     </div>
@@ -18,6 +23,11 @@
 import SearchResult from '~/components/SearchResult.vue';
 import { fetchObjectIds, fetchObjectDetailsByPage } from '~/api/metMuseum';
 
+/**
+ * IndexPage component
+ * 
+ * This component is responsible for displaying search results from the Met Museum API.
+ */
 export default {
   name: 'IndexPage',
   components: {
@@ -25,28 +35,36 @@ export default {
   },
   data() {
     return {
-      items: [],
-      fetchError: null,
-      loading: false,
-      objectIds: [],
-      page: 1,
-      pageSize: 50,
-      hasMore: true,
+      items: [], // List of fetched items
+      fetchError: null, // Error message if fetching fails
+      loading: false, // Loading state
+      objectIds: [], // List of object IDs to fetch
+      page: 1, // Current page number for pagination
+      pageSize: 50, // Number of items per page
+      hasMore: true, // Flag to check if more data is available
     };
   },
   methods: {
+    /**
+     * Fetch initial data from the API.
+     * @returns {Promise<void>}
+     */
     async fetchData() {
       try {
         this.loading = true;
-        const metadataDate = '2024-09-01';
+        const metadataDate = '2024-09-01'; // Example metadata date
         this.objectIds = await fetchObjectIds(metadataDate);
         console.log('Fetched object IDs:', this.objectIds.length);
-        this.loadMore();
+        this.loadMore(); // Load the first batch of items
       } catch (error) {
         this.fetchError = error.message;
         this.loading = false;
       }
     },
+    /**
+     * Load more data for pagination.
+     * @returns {Promise<void>}
+     */
     async loadMore() {
       try {
         this.loading = true;
@@ -54,6 +72,7 @@ export default {
         console.log('Fetched batch details:', batchDetails.length);
         this.items.push(...batchDetails);
         this.page += 1;
+        // Check if all items have been loaded
         if (this.items.length >= this.objectIds.length) {
           this.hasMore = false;
         }
@@ -63,10 +82,16 @@ export default {
         this.loading = false;
       }
     },
+    /**
+     * Scroll to the top of the page.
+     */
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   },
+  /**
+   * Fetch data when the component is mounted.
+   */
   mounted() {
     this.fetchData();
   },
@@ -81,21 +106,21 @@ export default {
   margin: 0 auto;
   padding: 0 1em;
   font-family: 'Montserrat', sans-serif;
-  color: #333; /* Dark gray for primary text */
+  color: #333;
 }
 
 .error-message {
-  color: #ff4d4d; /* Red for error messages */
+  color: #ff4d4d;
 }
 
 .loading-message {
-  color: #1E90FF; /* DodgerBlue for loading messages */
+  color: #1E90FF;
 }
 
 .button-container {
   display: flex;
   justify-content: center;
-  gap: 1em; /* Add spacing between buttons */
+  gap: 1em;
   margin-top: 1em;
 }
 
@@ -110,18 +135,18 @@ button {
 }
 
 .primary-button {
-  background-color: #1E90FF; /* DodgerBlue for primary button */
+  background-color: #1E90FF;
 }
 
 .primary-button:hover {
-  background-color: #1C86EE; /* Slightly darker blue for hover */
+  background-color: #1C86EE;
 }
 
 .secondary-button {
-  background-color: #6c757d; /* Gray for secondary button */
+  background-color: #6c757d;
 }
 
 .secondary-button:hover {
-  background-color: #5a6268; /* Slightly darker gray for hover */
+  background-color: #5a6268;
 }
 </style>

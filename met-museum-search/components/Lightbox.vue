@@ -13,8 +13,18 @@
 </template>
 
 <script>
+/**
+ * Lightbox component
+ * 
+ * This component displays an image in a lightbox overlay.
+ */
 export default {
+  name: 'Lightbox',
   props: {
+    /**
+     * The source URL of the image to display.
+     * @type {String}
+     */
     imageSrc: {
       type: String,
       required: false,
@@ -22,6 +32,9 @@ export default {
     }
   },
   methods: {
+    /**
+     * Emit a close event to close the lightbox.
+     */
     closeLightbox() {
       this.$emit('close');
     }
