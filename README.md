@@ -11,15 +11,22 @@ This project is a simple web application that allows users to search for artwork
 
 ```bash
 git clone https://github.com/yourusername/virtuoso-coding-exercise.git
+cd virtuoso-coding-exercise
 ```
 
-2. Install dependencies:
+2. Navigate into the `met-museum` directory:
+
+```bash
+cd met-museum
+```
+
+3. Install dependencies:
 
 ```bash
 npm install
 ```
 
-3. Start the development server:
+4. Run the development server:
 
 ```bash
 npm run dev
@@ -31,7 +38,7 @@ npm run dev
 2. Enter a search term in the search bar and click "Search" to see a list of artworks.
 3. Click on an artwork to see more details.
 
-## ObjectiveI 
+## Objective
 - Fetch results and render in cards.
 - Ideally use Nuxt.
 - Open lightbox and use larger image when clicking on image.
@@ -45,17 +52,7 @@ npm run dev
 
 ### Challenges
 - **Data Fetching**: Handling data fetching for 8000+ IDs that need to be fetched separately.
-- **Caching**: While caching would be ideal, the focus was on progressive loading.
-- **Loading Impact**: The number of items loaded and the speed of loading greatly impacts the user experience.
-- **Accurate Top Departments**: The top departments are determined by currently loaded items. By progressively loading more items, the top departments are affected.
+- **Caching**: While caching would be ideal, the focus was on pagination.
+- **Pagination Impact**: Pagination influences which top departments are displayed.
 - **Batch Data Fetching**: Decided to batch data fetching and display the number of items loaded versus the total.
-
-## Additional Information
-Some additional information specific to the inner directory.
-
-## Contributing
-Guidelines for contributing to the project.
-
-## License
-License information.
 
