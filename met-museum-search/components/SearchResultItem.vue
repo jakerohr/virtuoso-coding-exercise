@@ -1,9 +1,9 @@
 <template>
-  <a :href="item.objectURL" target="_blank" class="search-result-item">
-    <div v-if="renderItem">
+  <div class="search-result-item" data-testid="search-result-item">
+    <a :href="item.objectURL" target="_blank" data-testid="search-result-item__link" class="search-result-item__link">
       <div class="search-result-item__card">
-        <div class="search-result-item__image">
-          <img v-if="item.primaryImageSmall" v-bind="imageProps" data-testid="item-image" />
+        <div class="search-result-item__image" @click="openLightbox($event)">
+          <img v-if="item.primaryImageSmall" data-testid="item-image" :src="item.primaryImageSmall" alt="Image">
           <div v-else class="image-placeholder" data-testid="item-image">Not Available</div>
         </div>
         <div class="search-result-item__details">
@@ -14,49 +14,59 @@
           <p class="search-result-item__artist-name" data-testid="item-artist-name"><strong>Artist Name:</strong> {{ item.artistDisplayName || 'Not Available' }}</p>
           <p class="search-result-item__artist-nationality" data-testid="item-artist-nationality"><strong>Artist Nationality:</strong> {{ item.artistNationality || 'Not Available' }}</p>
           <div class="search-result-item__tags" data-testid="item-tags">
-            <strong>Tags:</strong> <span v-for="tag in itemTags" :key="`tag-${tag}`" class="search-result-item__tag">{{ tag.term }}</span>
+            <strong>Tags:</strong>
+            <template v-if="itemTags.length > 0">
+              <span v-for="tag in itemTags" :key="`tag-${tag}`" class="search-result-item__tag"> {{ tag.term }}</span>
+            </template>
+            <template v-else>
+              <span> Not Available</span>
+            </template>
           </div>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <p>Not Available</p>
-    </div>
-  </a>
+    </a>
+    <Lightbox v-if="isLightboxOpen" data-testid="lightbox" :image-src="item.primaryImage" @close="closeLightbox" />
+  </div>
 </template>
 
 <script>
+import Lightbox from './Lightbox.vue';
+
 export default {
   name: 'SearchResultItem',
+  components: {
+    Lightbox,
+  },
   props: {
     item: {
       type: Object,
-      default: () => {},
       required: true,
-    }
+    },
+  },
+  data() {
+    return {
+      isLightboxOpen: false,
+    };
   },
   computed: {
-    renderItem() {
-      return this.item && Object.keys(this.item).length > 0;
-    },
     itemTags() {
       return this.item.tags ? this.item.tags.slice(0, 3) : [];
     },
-    defaultImage() {
-      return 'https://via.placeholder.com/150';
+  },
+  methods: {
+    openLightbox(event) {
+      event.preventDefault(); // Prevent the default behavior of the anchor tag
+      this.isLightboxOpen = true;
     },
-    imageProps() {
-      return {
-        src: this.item.primaryImageSmall || this.defaultImage,
-        alt: this.item.title || 'Default Image',
-      };
-    }
-  }
-}
+    closeLightbox() {
+      this.isLightboxOpen = false;
+    },
+  },
+};
 </script>
 
 <style scoped>
-.search-result-item {
+.search-result-item__link {
   text-decoration: none;
   color: inherit;
 }

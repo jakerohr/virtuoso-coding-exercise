@@ -15,21 +15,27 @@ describe('SearchResult.vue', () => {
     },
     {
       department: "Arms and Armor"
+    },
+    {
+      department: "Sculpture"
+    },
+    {
+      department: "Arms and Armor"
     }
   ];
 
   it('renders the total count of search result items', () => {
     const wrapper = mount(SearchResult, {
-      props: { items: searchResults },
+      props: { items: searchResults, totalResults: searchResults.length },
     });
 
-    const header = wrapper.find('.header-container');
-    expect(header.text()).toContain(`Total: ${searchResults.length}`);
+    const totalCount = wrapper.find('[data-testid="total-count"]');
+    expect(totalCount.text()).toContain(`Total Results: ${searchResults.length} of ${searchResults.length}`);
   });
 
   it('renders a list of search result items in a vertical layout', () => {
     const wrapper = mount(SearchResult, {
-      props: { items: searchResults },
+      props: { items: searchResults, totalResults: searchResults.length },
     });
 
     const items = wrapper.findAll('.search-result-item');
@@ -38,7 +44,7 @@ describe('SearchResult.vue', () => {
 
   it('shows the top 3 departments in the results', () => {
     const wrapper = mount(SearchResult, {
-      props: { items: searchResults },
+      props: { items: searchResults, totalResults: searchResults.length },
     });
 
     const topDepartments = wrapper.find('.top-departments');
@@ -46,7 +52,7 @@ describe('SearchResult.vue', () => {
     const departmentList = topDepartments.findAll('li');
     expect(departmentList.length).toBe(3);
     expect(departmentList[0].text()).toContain('Arms and Armor');
-    expect(departmentList[1].text()).toContain('Paintings');
-    expect(departmentList[2].text()).toContain('Sculpture');
+    expect(departmentList[1].text()).toContain('Sculpture');
+    expect(departmentList[2].text()).toContain('Paintings');
   });
 });

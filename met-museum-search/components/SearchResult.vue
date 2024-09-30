@@ -1,9 +1,11 @@
 <template>
   <div>
     <div class="header-container">
-      <p>Total: {{ totalCount }}</p>
+      <h1>Metropolitan Museum of Art Collection</h1>
+      <p data-testid="total-count">Total Results: {{ filteredItems.length }} of {{ totalResults }}</p>
       <div class="top-departments">
-        <h3>Top Departments</h3>
+        <h2>Top Departments</h2>
+        <p>Click on a department to filter the results</p>
         <ul>
           <li v-for="department in topDepartments" :key="department" @click="filterByDepartment(department)" class="clickable">
             {{ department }}
@@ -31,6 +33,10 @@ export default {
       type: Array,
       required: true,
       default: () => []
+    },
+    totalResults: {
+      type: Number,
+      required: true
     }
   },
   data() {
@@ -39,9 +45,6 @@ export default {
     };
   },
   computed: {
-    totalCount() {
-      return this.items.length;
-    },
     topDepartments() {
       const departmentCount = this.items.reduce((acc, item) => {
         acc[item.department] = (acc[item.department] || 0) + 1;

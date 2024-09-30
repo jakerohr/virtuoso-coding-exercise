@@ -4,7 +4,7 @@
       <p class="error-message">Error loading data: {{ fetchError }}</p>
     </div>
     <div v-else>
-      <SearchResult :items="items" />
+      <SearchResult :items="items" :totalResults="objectIds.length" />
       <div v-if="loading" class="loading-message">Loading more...</div>
       <div class="button-container">
         <button v-if="!loading && hasMore" @click="loadMore" class="primary-button">Load More</button>
